@@ -1,14 +1,14 @@
-from unittest import TestCase, main
+from unittest import TestCase
 
-from iteratee import *
+from fp.iteratee import *
 
 class IterateeTest(TestCase):
 
     def test_input(self):
         self.assertNotEqual(Empty, EOF)
 
-    def test_fmap(self):
-        self.assertEqual(head().fmap2(lambda i: i + 10).enum([1, 2, 3]).run(), Just(11))
+    def test_map(self):
+        self.assertEqual(head().map2(lambda i: i + 10).enum([1, 2, 3]).run(), Just(11))
 
     def test_head(self):
         self.assertEqual(head().enum([1, 2, 3]).run(), Just(1))
@@ -35,10 +35,7 @@ class IterateeTest(TestCase):
         self.assertEqual((head() >> peek()).enum([1, 2, 3]).run(), Just(2))
 
     def test_file_lines(self):
-        name = 'test.txt'
+        name = 'tests/test.txt'
         self.assertEqual(head().file_lines(name).run(), Just('hello\n'))
         self.assertEqual(drop(2).bind_(head()).file_lines(name).run(), Just('python\n'))
         self.assertEqual(drop(1).bind_(length()).file_lines(name).run(), 2)
-
-if __name__ == '__main__':
-    main()

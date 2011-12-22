@@ -20,26 +20,32 @@ class Bind(object):
 
 class Functor(object):
 
-    def fmap(self, f):
+    def map(self, f):
         pass
 
-    def fmap2(self, f):
-        return self.fmap(lambda a: a.fmap(lambda b: f(b)))
+    def __gt__(self, f):
+        return self.map(f)
+
+    def map2(self, f):
+        return self.map(lambda a: a.map(lambda b: f(b)))
 
 class Apply(object):
 
     def apply(self, a):
         pass
 
+    def __mul__(self, a):
+        return self.apply(a)
+
 class Applicative(Pure, Functor, Apply):
 
-    def fmap(self, f):
+    def map(self, f):
         return self.pure(f).apply(self)
 
 class Monad(Applicative, Bind):
 
-    def fmap(self, f):
+    def map(self, f):
         return self.bind(lambda a: self.pure(f(a)))
 
     def apply(self, m):
-        return self.bind(lambda k: m.fmap(lambda a: k(a)))
+        return self.bind(lambda k: m.map(lambda a: k(a)))

@@ -1,4 +1,4 @@
-from monad import Monad
+from fp.typeclass import Monad
 
 class Maybe(Monad):
 
@@ -8,6 +8,9 @@ class Maybe(Monad):
 
     def bind(self, f):
         return Nothing
+
+    def __str__(self):
+        return "Nothing"
 
 Nothing = Maybe()
 
@@ -20,7 +23,7 @@ class Just(Maybe):
         return isinstance(other, Just) and other.value == self.value
 
     def __str__(self):
-        return "Just({0})".format(self.value)
+        return "Just {0}".format(self.value)
 
     def bind(self, f):
         return f(self.value)

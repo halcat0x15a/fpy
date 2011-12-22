@@ -1,8 +1,8 @@
 from functools import partial
 
-from monad import Monad
+from fp.typeclass import Monad
 
-from maybe import *
+from fp.maybe import *
 
 class Input(object):
 
