@@ -13,3 +13,6 @@ class Placeholder(object):
         return partial(operator.methodcaller, name)
 
 _ = Placeholder()
+
+def identity(a):
+    return a

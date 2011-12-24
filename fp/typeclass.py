@@ -1,3 +1,5 @@
+from fp import identity
+
 class Pure(object):
 
     @classmethod
@@ -17,6 +19,9 @@ class Bind(object):
 
     def __rshift__(self, a):
         return self.bind_(a)
+
+    def join(self):
+        return self.bind(identity)
 
 class Functor(object):
 
@@ -49,3 +54,28 @@ class Monad(Applicative, Bind):
 
     def apply(self, m):
         return self.bind(lambda k: m.map(lambda a: k(a)))
+
+class Zero(object):
+
+    @classmethod
+    def zero(self):
+        pass
+
+class Semigroup(object):
+
+    def __add__(self, m):
+        pass
+
+class Monoid(Zero, Semigroup):
+    pass
+
+class Iteratable(object):
+
+    def __iter__(self):
+        pass
+
+    def __len__(self):
+        return reduce(lambda a, _: a + 1, iter(self), 0)
+
+    def __getitem__(self, i):
+        return islice(iter(self), start=i)
