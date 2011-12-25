@@ -1,5 +1,18 @@
 from fp import identity
 
+class Equal(object):
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and hasattr(other, '__dict__') and self.__dict__ == other.__dict__
+
+class Show(object):
+
+    def __str__(self):
+        values = self.__dict__.values()
+        def comma(a, b):
+            return '{0}, {1}'.format(a, b)
+        return self.__class__.__name__ + ('' if len(values) == 0 else '({0})'.format(reduce(comma, map(str, values))))
+
 class Pure(object):
 
     def pure(self, a):

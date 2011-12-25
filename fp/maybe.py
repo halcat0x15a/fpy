@@ -1,6 +1,6 @@
-from fp.typeclass import Monad, Monoid, Iteratable
+from fp.typeclass import *
 
-class Maybe(Monad, Monoid, Iteratable):
+class Maybe(Monad, Monoid, Iteratable, Equal, Show):
 
     def pure(self, a):
         return Just(a)
@@ -15,9 +15,6 @@ class Nothing(Maybe):
 
     def append(self, m):
         return m
-
-    def __str__(self):
-        return "Nothing"
 
     def __iter__(self):
         return iter(())
@@ -34,12 +31,6 @@ class Just(Maybe):
 
     def append(self, m):
         return self if Nothing == m else Just(self.value + m.value)
-
-    def __eq__(self, other):
-        return isinstance(other, Just) and other.value == self.value
-
-    def __str__(self):
-        return "Just({0})".format(self.value)
 
     def __iter__(self):
         yield self.value

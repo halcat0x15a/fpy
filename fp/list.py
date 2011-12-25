@@ -1,7 +1,7 @@
 from operator import eq
-from typeclass import Monad, Monoid, Iteratable
+from typeclass import *
 
-class List(Monad, Monoid, Iteratable):
+class List(Monad, Monoid, Iteratable, Equal, Show):
 
     def pure(self, a):
         return Cons(a)
@@ -16,9 +16,6 @@ class Nil(List):
 
     def append(self, m):
         return m
-
-    def __str__(self):
-        return 'Nil'
 
     def __iter__(self):
         return iter(())
@@ -36,12 +33,6 @@ class Cons(List):
 
     def append(self, m):
         return Cons(self.head, self.tail + m)
-
-    def __str__(self):
-        return 'Cons({0}, {1})'.format(str(self.head), str(self.tail))
-
-    def __eq__(self, other):
-        return isinstance(other, Cons) and self.head == other.head and self.tail == self.tail
 
     def __iter__(self):
         yield self.head
