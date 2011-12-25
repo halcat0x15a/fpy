@@ -2,7 +2,6 @@ from fp import identity
 
 class Pure(object):
 
-    @classmethod
     def pure(self, a):
         pass
 
@@ -57,14 +56,16 @@ class Monad(Applicative, Bind):
 
 class Zero(object):
 
-    @classmethod
     def zero(self):
         pass
 
 class Semigroup(object):
 
-    def __add__(self, m):
+    def append(self, m):
         pass
+
+    def __add__(self, m):
+        return self.append(m)
 
 class Monoid(Zero, Semigroup):
     pass

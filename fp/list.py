@@ -14,14 +14,14 @@ class Nil(List):
     def bind(self, f):
         return Nil
 
-    def __add__(self, m):
+    def append(self, m):
         return m
 
     def __str__(self):
         return 'Nil'
 
     def __iter__(self):
-        return iter([])
+        return iter(())
 
 Nil = Nil()
 
@@ -32,9 +32,9 @@ class Cons(List):
         self.tail = tail
 
     def bind(self, f):
-        return f(self.head) + self.tail.bind(f)
+        return f(self.head).append(self.tail.bind(f))
 
-    def __add__(self, m):
+    def append(self, m):
         return Cons(self.head, self.tail + m)
 
     def __str__(self):
@@ -48,9 +48,9 @@ class Cons(List):
         for a in iter(self.tail):
             yield a
 
-def List(*a):
+def List(a):
     if len(a) == 0:
         return Nil
     else:
         t = a[1:]
-        return Cons(a[0], Nil if len(t) == 0 else List(*t))
+        return Cons(a[0], Nil if len(t) == 0 else List(t))

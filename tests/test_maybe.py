@@ -8,9 +8,6 @@ class MaybeTest(TestCase):
         self.assertEqual(str(Nothing), 'Nothing')
         self.assertEqual(str(Just(1)), 'Just(1)')
 
-    def test_pure(self):
-        self.assertEqual(Maybe.pure(1), Just(1))
-
     def test_bind(self):
         self.assertEqual(Just(1) >= (lambda x: Just(x + 1)), Just(2))
         self.assertEqual(Just('python') >> Nothing, Nothing)
@@ -27,3 +24,9 @@ class MaybeTest(TestCase):
         self.assertEqual(Nothing + Just(1), Just(1))
         self.assertEqual(Just(1) + Nothing, Just(1))
         self.assertEqual(Just(3) + Just(2), Just(5))
+
+    def test_iter(self):
+        i = iter(Just(5))
+        self.assertEqual(next(i), 5)
+        self.assertRaises(StopIteration, lambda: next(i))
+        self.assertRaises(StopIteration, lambda: next(iter(Nothing)))
