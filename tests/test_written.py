@@ -10,6 +10,7 @@ class WriterTest(TestCase):
         w = Writer('Hello', 100) >= (lambda x: Writer('World', x + 100))
         self.assertEqual(w.written, 'HelloWorld')
         self.assertEqual(w.over, 200)
+        print dir(List([1, 2, 3]))
 
     def test_map(self):
         w = Writer(List('python'), 10) > (lambda x: x * 2)
